@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zeptan</title>
+  <!-- jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- jquery.terminal CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jquery.terminal/js/jquery.terminal.min.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #111;
+    }
+    #terminal {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal"></div>
+
+  <script>
+    (function(){
+      const PHONE_NUMBER = "+968 9221 2401";
+      const portfolioLinks = [
+        "https://zionpayment.com/",
+        "https://layer.cafe/",
+        "https://nighttrader.exchange/",
+        "https://exchainge.net/",
+        "https://www.staking.xyz/"
+      ];
+
+      function printHelp(term) {
+        term.echo("Available commands:");
+        term.echo("  help      - Show this help menu");
+        term.echo("  contact   - Show contact information");
+        term.echo("  portfolio - List portfolio links");
+      }
+
+      function printContact(term) {
+        term.echo("Contact us:");
+        term.echo("  Phone: " + PHONE_NUMBER);
+      }
+
+      function printPortfolio(term) {
+        term.echo("Portfolio:");
+        portfolioLinks.forEach(function(link){
+          term.echo("  " + link);
+        });
+      }
+
+      $(function(){
+        const logo =  "  ______          _              \n" +
+                      " |___  /         | |             \n" +
+                      "    / / ___ _ __ | |_ __ _ _ __  \n" +
+                      "   / / / _ \\ '_ \\| __/ _` | '_ \\ \n" +
+                      "  / /_|  __/ |_) | || (_| | | | |\n" +
+                      " /_____\\___| .__/ \\__\\__,_|_| |_|\n" +
+                      "           | |                   \n" +
+                      "           |_|                   ";
+        const greetings = logo + "\nType 'help' to get started.";
+
+        $('#terminal').terminal(function(command, term) {
+          const cmd = (command || '').trim().toLowerCase();
+          if (!cmd) return; // ignore empty
+          switch (cmd) {
+            case 'help':
+              printHelp(term);
+              break;
+            case 'contact':
+            case 'contact us':
+              printContact(term);
+              break;
+            case 'portfolio':
+              printPortfolio(term);
+              break;
+            default:
+              term.echo("Unknown command: " + command);
+              printHelp(term);
+          }
+        }, {
+          greetings: greetings,
+          name: 'zeptan_terminal',
+          prompt: 'zeptan> ',
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
